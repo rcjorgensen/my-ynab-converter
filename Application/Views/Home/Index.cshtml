@@ -1,0 +1,75 @@
+﻿@model Application.Models.HomeViewModel
+
+<a asp-controller = "Payee" asp-action="Index">Manage payees</a>
+<h1>Upload CSV</h1>
+<form asp-action="Index" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="col-md-5">
+            <input type="file" name="file" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-5">
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </div>
+    </div>
+</form>
+
+<h2>Input</h2>
+<table class="table">
+    <tr>
+        <th>Dato</th>
+        <th>Tekst</th>
+        <th>Beløb</th>
+    </tr>
+    @foreach (var record in Model.InputRecords)
+    {
+        <tr>
+            <td>@record.Date.ToString("yyyy-MM-dd")</td>
+            <td>@record.Text</td>
+            <td>@record.Amount</td>
+        </tr>
+    }
+</table>
+
+<h2>Output</h2>
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Payee</th>
+        <th>Outflow</th>
+        <th>Inflow</th>
+    </tr>
+    @foreach (var record in Model.OutputRecords)
+    {
+        <tr>
+            <td>@record.Date.ToString("yyyy-MM-dd")</td>
+            <td>@record.Payee</td>
+            <td>@record.Outflow</td>
+            <td>@record.Inflow</td>
+        </tr>
+    }
+</table>
+
+<h2>CSV</h2>
+<textarea class="form-control" rows="10">@Model.Output</textarea>
+<button class="btn btn-primary">Download</button>
+
+@section scripts {
+    <script>
+        $("button").click(function () {
+            $("<a />", {
+                download: $.now() + ".csv",
+                href: URL.createObjectURL(
+                    new Blob([$("textarea").val()], {
+                        type: "text/plain"
+                    }))
+            })
+                .appendTo("body")[0].click();
+            $(window).one("focus", function () {
+                $("a").last().remove()
+            })
+        })
+    </script>
+}

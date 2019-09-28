@@ -1,0 +1,29 @@
+﻿@page
+@model Application.RazorPages.Pages.Payees.ListModel
+@{
+}
+
+<h1>Payees</h1>
+
+<form method="get">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control"
+                   asp-for="SearchTerm" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    @foreach(var payee in Model.Payees)
+    {
+        <tr>
+            <td>@payee.Name</td>
+        </tr>
+    }
+</table>
