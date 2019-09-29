@@ -24,6 +24,11 @@
     {
         <tr>
             <td>@payee.Name</td>
+            <td>
+                <a class="btn btn-lg" asp-page="./Detail" asp-route-payeeId="@payee.Id">
+                    <i class="fa fa-search-plus"></i>
+                </a>
+            </td>
         </tr>
     }
 </table>
