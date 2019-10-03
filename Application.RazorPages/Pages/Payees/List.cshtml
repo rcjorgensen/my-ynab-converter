@@ -19,14 +19,21 @@
     </div>
 </form>
 
+<div class="form-group">
+    <a asp-page="./Edit" class="btn btn-primary">Add New</a>
+</div>
+
 <table class="table">
-    @foreach(var payee in Model.Payees)
+    @foreach (var payee in Model.Payees)
     {
         <tr>
             <td>@payee.Name</td>
             <td>
-                <a class="btn btn-lg" asp-page="./Detail" asp-route-payeeId="@payee.Id">
-                    <i class="fa fa-search-plus"></i>
+                <a class="btn bnt-lg" asp-page="./Edit" asp-route-payeeId="@payee.Id">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-lg" asp-page="./Delete" asp-route-payeeId="@payee.Id">
+                    <i class="fas fa-trash-alt"></i>
                 </a>
             </td>
         </tr>
