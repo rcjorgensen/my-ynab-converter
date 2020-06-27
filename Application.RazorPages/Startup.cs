@@ -24,8 +24,7 @@ namespace Application.RazorPages
         {
             services.AddScoped<IDbConnection>((ctx) =>
             {
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MyYnabConverter\\payees.sqlite");
-                var connectionString = $"Data Source={path};Version=3;";
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
                 return new SQLiteConnection(connectionString);
             });
             services.AddScoped<IPayeeRepository, PayeeRepository>();
