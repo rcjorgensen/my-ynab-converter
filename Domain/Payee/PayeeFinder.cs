@@ -8,22 +8,18 @@ namespace Domain.Payee
     {
         public static List<Payee> Find(string input, List<Payee> payees)
         {
-            var payeesWithOrderedKeywords = payees.Select(p => OrderKeywords(p));
-            var foundPayeesWithRatings = new List<(Payee payee, int rating)>();
+            var payeesWithOverlap = new List<(Payee payee, int rating)>();
 
-            foreach (var payee in payeesWithOrderedKeywords)
+            foreach (var payee in payees)
             {
                 foreach (var keyword in payee.Keywords)
                 {
-                    if (InputContainsKeyword(input, keyword.Value))
-                    {
-                        foundPayeesWithRatings.Add((payee, keyword.Value.Length));
-                        break;
-                    }
+                    var overlap = CalculateOverlap(input, keyword.Value);
+                    payeesWithOverlap.Add((payee, overlap));
                 }
             }
 
-            return foundPayeesWithRatings.OrderByDescending(x => x.rating).Select(x => x.payee).ToList();
+            return payeesWithOverlap.OrderByDescending(x => x.rating).Select(x => x.payee).ToList();
         }
 
         internal static Payee OrderKeywords(Payee payee)
@@ -35,6 +31,50 @@ namespace Domain.Payee
         internal static bool InputContainsKeyword(string input, string keyword)
         {
             return input.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        public static int CalculateOverlap(string x, string y)
+        {
+            if (string.IsNullOrEmpty(x) || string.IsNullOrEmpty(y))
+            {
+                return 0;
+            }
+
+            if (string.Equals(x, y, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return x.Length;
+            }
+
+            string s, l;
+            if (x.Length == y.Length || x.Length < y.Length)
+            {
+                s = x;
+                l = y;
+            }
+            else
+            {
+                s = y;
+                l = x;
+            }
+
+            if (l.Contains(s, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return s.Length;
+            }
+
+            for (int i = s.Length - 1; i > 0; i--)
+            {
+                for (int j = 0; j <= s.Length - i; j++)
+                {
+                    var c = s.Substring(j, i);
+                    if (l.Contains(c, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
         }
     }
 }
