@@ -16,7 +16,7 @@ namespace Application.RazorPages.Pages.Payees
         [BindProperty]
         [Display(Name = "Add Keyword")]
         public string NewKeyword { get; set; }
-        
+
         [TempData]
         public string Message { get; set; }
 
@@ -62,7 +62,7 @@ namespace Application.RazorPages.Pages.Payees
             {
                 payeeRepository.Add(Payee);
             }
-            
+
             return RedirectToPage("./Edit", new { payeeId = Payee.Id });
         }
     }

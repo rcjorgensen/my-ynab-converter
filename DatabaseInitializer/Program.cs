@@ -30,7 +30,7 @@ namespace DatabaseInitializer
                     "   Value           TEXT NOT NULL, " +
                     "   PayeeId         INTEGER NOT NULL, " +
                     "   FOREIGN KEY(PayeeId) REFERENCES Payee(Id) ON DELETE CASCADE " +
-                    ");");                
+                    ");");
             }
         }
     }

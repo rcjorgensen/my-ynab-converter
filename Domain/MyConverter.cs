@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using Domain.Payee;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,11 +22,13 @@ namespace Domain
 
         public static Output Convert(Input input, List<Payee.Payee> payees)
         {
-            var payee = PayeeFinder.Find(input.Text, payees).FirstOrDefault();
+            var payeeSearchResult = PayeeFinder.Find(input.Text, payees).FirstOrDefault();
             return new Output
             {
                 Date = input.Date,
-                Payee = payee?.Name ?? input.Text,
+                PayeeBefore = input.Text,
+                PayeeAfter = payeeSearchResult.Payee?.Name ?? string.Empty,
+                Overlap = payeeSearchResult.Overlap,
                 Category = "",
                 Memo = "",
                 Inflow = input.Amount >= 0 ? input.Amount : new decimal?(),

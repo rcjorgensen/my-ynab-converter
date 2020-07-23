@@ -47,7 +47,7 @@ namespace Application.RazorPages.Pages
             {
                 outputRecords.Add(MyConverter.Convert(record, payees));
             }
-            
+
             InputRecords.AddRange(inputRecords);
             OutputRecords.AddRange(outputRecords);
             Output = MyConverter.GetOutputString(outputRecords);

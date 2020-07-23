@@ -6,20 +6,25 @@ namespace Domain.Payee
 {
     public static class PayeeFinder
     {
-        public static List<Payee> Find(string input, List<Payee> payees)
+        public static List<PayeeSearchResult> Find(string input, List<Payee> payees)
         {
-            var payeesWithOverlap = new List<(Payee payee, int rating)>();
+            var payeeSearchResults = new List<PayeeSearchResult>();
 
             foreach (var payee in payees)
             {
                 foreach (var keyword in payee.Keywords)
                 {
-                    var overlap = CalculateOverlap(input, keyword.Value);
-                    payeesWithOverlap.Add((payee, overlap));
+                    var overlap = GetOverlap(input, keyword.Value);
+                    payeeSearchResults.Add(new PayeeSearchResult
+                    {
+                        SearchTerm = input,
+                        Payee = payee,
+                        Overlap = overlap
+                    });
                 }
             }
 
-            return payeesWithOverlap.OrderByDescending(x => x.rating).Select(x => x.payee).ToList();
+            return payeeSearchResults.OrderByDescending(x => x.Overlap.Length).ToList();
         }
 
         internal static Payee OrderKeywords(Payee payee)
@@ -33,48 +38,48 @@ namespace Domain.Payee
             return input.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        public static int CalculateOverlap(string x, string y)
+        public static string GetOverlap(string x, string y)
         {
             if (string.IsNullOrEmpty(x) || string.IsNullOrEmpty(y))
             {
-                return 0;
+                return "";
             }
 
             if (string.Equals(x, y, StringComparison.CurrentCultureIgnoreCase))
             {
-                return x.Length;
+                return x;
             }
 
-            string s, l;
+            string shortest, longest;
             if (x.Length == y.Length || x.Length < y.Length)
             {
-                s = x;
-                l = y;
+                shortest = x;
+                longest = y;
             }
             else
             {
-                s = y;
-                l = x;
+                shortest = y;
+                longest = x;
             }
 
-            if (l.Contains(s, StringComparison.CurrentCultureIgnoreCase))
+            if (longest.Contains(shortest, StringComparison.CurrentCultureIgnoreCase))
             {
-                return s.Length;
+                return shortest;
             }
 
-            for (int i = s.Length - 1; i > 0; i--)
+            for (int i = shortest.Length - 1; i > 0; i--)
             {
-                for (int j = 0; j <= s.Length - i; j++)
+                for (int j = 0; j <= shortest.Length - i; j++)
                 {
-                    var c = s.Substring(j, i);
-                    if (l.Contains(c, StringComparison.CurrentCultureIgnoreCase))
+                    var potentialMatch = shortest.Substring(j, i);
+                    if (longest.Contains(potentialMatch, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        return i;
+                        return potentialMatch;
                     }
                 }
             }
 
-            return 0;
+            return "";
         }
     }
 }

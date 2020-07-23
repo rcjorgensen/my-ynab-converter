@@ -11,7 +11,7 @@ namespace Domain
                 .Index(0)
                 .Name("Date")
                 .TypeConverterOption.Format("yyyy-MM-dd");
-            Map(m => m.Payee)
+            Map(m => m.PayeeAfter)
                 .Index(1)
                 .Name("Payee");
             Map(m => m.Category)

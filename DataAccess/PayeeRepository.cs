@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Dapper;
+using Domain.Payee;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Dapper;
-using Domain.Payee;
 
 namespace DataAccess
 {

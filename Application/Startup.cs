@@ -16,7 +16,7 @@ namespace Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IDbConnection>((ctx) => 
+            services.AddTransient<IDbConnection>((ctx) =>
             {
                 var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MyYnabConverter\\payees.sqlite");
                 var connectionString = $"Data Source={path};Version=3;";

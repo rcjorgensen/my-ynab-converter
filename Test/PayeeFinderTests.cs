@@ -1,5 +1,4 @@
 using Domain.Payee;
-using System;
 using Xunit;
 
 namespace Test
@@ -13,11 +12,11 @@ namespace Test
             var str2 = "Nordhavn Cykler";
             var str3 = "Lidl Nordhavn";
 
-            var overlap1 = PayeeFinder.CalculateOverlap(str1, str2);
-            var overlap2 = PayeeFinder.CalculateOverlap(str1, str3);
+            var overlap1 = PayeeFinder.GetOverlap(str1, str2);
+            var overlap2 = PayeeFinder.GetOverlap(str1, str3);
 
-            Assert.Equal(8, overlap1);
-            Assert.Equal(4+9, overlap2);
+            Assert.Equal("Nordhavn", overlap1);
+            Assert.Equal("Lidl Nordhavn", overlap2);
         }
     }
 }

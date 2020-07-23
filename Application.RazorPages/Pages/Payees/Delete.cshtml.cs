@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataAccess;
+﻿using DataAccess;
 using Domain.Payee;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -33,7 +29,7 @@ namespace Application.RazorPages.Pages.Payees
         public IActionResult OnPost(int payeeId)
         {
             payeeRepository.Remove(payeeId);
-            
+
             return RedirectToPage("./List");
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Application.Models;
 using DataAccess;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers

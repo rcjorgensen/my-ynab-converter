@@ -16,28 +16,13 @@
 
 @if (Model.InputRecords.Any())
 {
-    <h2 class="display-4">Input</h2>
-    <table class="table">
-        <tr>
-            <th>Dato</th>
-            <th>Tekst</th>
-            <th>Beløb</th>
-        </tr>
-        @foreach (var record in Model.InputRecords)
-        {
-            <tr>
-                <td>@record.Date.ToString("yyyy-MM-dd")</td>
-                <td>@record.Text</td>
-                <td>@record.Amount</td>
-            </tr>
-        }
-    </table>
-
-    <h2 class="display-4">Output</h2>
+    <h2 class="display-4">Result</h2>
     <table class="table">
         <tr>
             <th>Date</th>
-            <th>Payee</th>
+            <th>Before</th>
+            <th>After</th>
+            <th>Overlap</th>
             <th>Outflow</th>
             <th>Inflow</th>
         </tr>
@@ -45,7 +30,9 @@
         {
             <tr>
                 <td>@record.Date.ToString("yyyy-MM-dd")</td>
-                <td>@record.Payee</td>
+                <td>@record.PayeeBefore</td>
+                <td>@record.PayeeAfter</td>
+                <td>@record.Overlap</td>
                 <td>@record.Outflow</td>
                 <td>@record.Inflow</td>
             </tr>
